@@ -3,6 +3,8 @@
 
 #include "customchartview.h"
 
+#include <QBarSeries>
+
 class BarChartView: public CustomChartView
 {
 public:
