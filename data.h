@@ -24,7 +24,10 @@ public:
     QList< Data::DataElement >::iterator end();
 
     QJsonDocument toJson() const;
-    void fromJson( const QJsonDocument & );
+    bool fromJson( const QJsonDocument & );
+
+    const QString &getTitle() const;
+    void setTitle(const QString &newTitle);
 
 // if needed
 //
@@ -33,6 +36,7 @@ public:
 
 private:
     QList< DataElement > elements;
+    QString title;
 };
 
 #endif // DATA_H

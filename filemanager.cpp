@@ -16,11 +16,18 @@ Data *FileManager::read( const QString &filename )
     QFile file;
     if ( !file.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
         emit fileError( "Couldn't open input file");
-        return data;
+        delete data;
+
+        return nullptr;
     }
 
     auto doc = file.readAll();
-    data->fromJson( QJsonDocument::fromJson( doc ) );
+    if ( !data->fromJson( QJsonDocument::fromJson( doc ) ) ) {
+        emit fileError( "Invalid format" );
+        delete data;
+
+        return nullptr;
+    }
 
     return data;
 }
