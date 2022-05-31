@@ -41,7 +41,28 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuStyle">
+    <property name="title">
+     <string>Style</string>
+    </property>
+    <widget class="QMenu" name="menuPen">
+     <property name="title">
+      <string>Pen</string>
+     </property>
+     <addaction name="actionPenColor"/>
+     <addaction name="actionPenWidth"/>
+    </widget>
+    <widget class="QMenu" name="menuBrush">
+     <property name="title">
+      <string>Brush</string>
+     </property>
+     <addaction name="actionBrushColor"/>
+    </widget>
+    <addaction name="menuPen"/>
+    <addaction name="menuBrush"/>
+   </widget>
    <addaction name="menuMenu"/>
+   <addaction name="menuStyle"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -88,6 +109,21 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionPenColor">
+   <property name="text">
+    <string>Color</string>
+   </property>
+  </action>
+  <action name="actionPenWidth">
+   <property name="text">
+    <string>Width</string>
+   </property>
+  </action>
+  <action name="actionBrushColor">
+   <property name="text">
+    <string>Color</string>
    </property>
   </action>
  </widget>

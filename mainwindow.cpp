@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QColorDialog>
+#include <QInputDialog>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QRandomGenerator>
@@ -10,6 +12,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->menuPen->setEnabled( false );
+    ui->menuBrush->setEnabled( false );
 
     newAct = ui->actionNew;
     saveAct = ui->actionSave;
@@ -23,6 +28,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(newAct, &QAction::triggered, this, &MainWindow::newStandartCharts);
 
     customChartView = nullptr;
+
+    statusLabel = new QLabel( this );
+    statusLabel->setText( "Nothing to display" );
+    this->ui->statusbar->addPermanentWidget( statusLabel );
 
 //    connect( fileManager, &FileManager::fileError, this, [ this ]( const QString& msg ){
 //        this->ui->statusbar->showMessage( "File manager error: " + msg, 5000 );
@@ -49,8 +58,11 @@ void MainWindow::newFile()
 void MainWindow::enableDisplay()
 {
     if ( !customChartView ) return;
-    customChartView->update();
+
+    ui->menuPen->setEnabled( true );
+    ui->menuBrush->setEnabled( true );
     setCentralWidget(customChartView);
+    updateDisplay();
 }
 
 void MainWindow::disableDisplay()
@@ -59,6 +71,9 @@ void MainWindow::disableDisplay()
         delete customChartView;
         customChartView = nullptr;
     }
+
+    ui->menuPen->setEnabled( false );
+    ui->menuBrush->setEnabled( false );
     setCentralWidget(nullptr);
 }
 
@@ -95,6 +110,18 @@ void MainWindow::newStandartCharts()
     enableDisplay();
 }
 
+void MainWindow::updateDisplay()
+{
+    if ( !customChartView || !statusLabel ) return;
+
+    customChartView->update();
+    statusLabel->setText( QString( "Chart: %1, Pen Color: %2, Pen Width: %3 px, Brush Color: %4" )
+                          .arg( customChartView->getData()->getTitle() )
+                          .arg( customChartView->getData()->getPenColor().name() )
+                          .arg( QString::number( customChartView->getData()->getPenWidth() ) )
+                          .arg( customChartView->getData()->getBrushColor().name() ) );
+}
+
 void MainWindow::open() {  
    ui->statusbar->showMessage("Opening...");
    QString newPath = QFileDialog::getOpenFileName(this, tr("Open..."), QDir::home().absolutePath(), tr("Json (*.json)"));
@@ -109,6 +136,7 @@ void MainWindow::open() {
 
         customChartView = new BarChartView();
         customChartView->setData( data );
+        updateDisplay();
         enableDisplay();
    }
 }
@@ -133,5 +161,98 @@ void MainWindow::on_actionAbout_triggered()
     msgBox.setWindowTitle( "Charts" );
 
     msgBox.exec();
+}
+
+
+void MainWindow::on_actionPenColor_triggered()
+{
+    if ( !customChartView ) return;
+
+    QColorDialog dlg{ customChartView->getData()->getPenColor(), this };
+
+    switch ( dlg.exec() ) {
+    case dlg.Accepted: {
+        customChartView->getData()->setPenColor( dlg.currentColor() );
+        updateDisplay();
+        break;
+    }
+    case dlg.Rejected: {
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+
+void MainWindow::on_actionBrushColor_triggered()
+{
+    if ( !customChartView ) return;
+
+    QColorDialog dlg{ customChartView->getData()->getBrushColor(), this };
+
+    switch ( dlg.exec() ) {
+    case dlg.Accepted: {
+        customChartView->getData()->setBrushColor( dlg.currentColor() );
+        customChartView->update();
+        break;
+    }
+    case dlg.Rejected: {
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+
+void MainWindow::on_actionPenWidth_triggered()
+{
+    if ( !customChartView ) return;
+
+    QStringList options{ "1 px", "2 px", "5 px", "10 px", "20 px" };
+    QInputDialog dlg{ this };
+    dlg.setComboBoxItems( options );
+
+
+    switch ( dlg.exec() ) {
+    case dlg.Accepted: {
+        int res;
+        switch ( options.indexOf( dlg.textValue() ) ) {
+        case 0: {
+            res = 1;
+            break;
+        }
+        case 1: {
+            res = 2;
+            break;
+        }
+        case 2: {
+            res = 5;
+            break;
+        }
+        case 3: {
+            res = 10;
+            break;
+        }
+        case 4: {
+            res = 20;
+            break;
+        }
+        default: {
+            res = 1;
+        }
+        }
+
+        customChartView->getData()->setPenWidth( res );
+        customChartView->update();
+        break;
+    }
+    case dlg.Rejected: {
+        break;
+    }
+    default:
+        break;
+    }
 }
 

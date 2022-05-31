@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QLabel>
 #include "customchartview.h"
 #include "barchartview.h"
 #include "filemanager.h"
@@ -22,6 +23,8 @@ private:
     void enableDisplay();
     void disableDisplay();
     void newStandartCharts();
+    void updateDisplay();
+
 private slots:
     void newFile();
     void open();
@@ -32,6 +35,12 @@ private slots:
 
     void on_actionAbout_triggered();
 
+    void on_actionPenColor_triggered();
+
+    void on_actionBrushColor_triggered();
+
+    void on_actionPenWidth_triggered();
+
 private:
     Ui::MainWindow *ui;
     CustomChartView *customChartView;
@@ -40,6 +49,8 @@ private:
     QAction *saveAct;
     QAction *clearAct;
     FileManager *fileManager;
+
+    QLabel *statusLabel;
 };
 #endif // MAINWINDOW_H
 
