@@ -1,5 +1,5 @@
 #include "barchartview.h"
-#include <QtCharts/QBarSet>
+#include <QBarSet>
 
 
 BarChartView::BarChartView()
