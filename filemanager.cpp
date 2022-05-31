@@ -32,13 +32,13 @@ Data *FileManager::read( const QString &filename )
     return data;
 }
 
-void FileManager::write( const Data &data, const QString &filename ) const{
+void FileManager::write( const Data *data, const QString &filename ) {
     QFile file( filename );
     if ( !file.open( QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate ) ) {
         emit fileError( "Couldn't open output file");
         return;
     }
 
-    auto doc = data.toJson().toJson();
+    auto doc = data->toJson().toJson( QJsonDocument::Compact );
     file.write( doc );
 }

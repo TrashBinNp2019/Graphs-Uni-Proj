@@ -14,12 +14,12 @@ public:
     FileManager( QObject * = nullptr );
 
     Data *read( const QString& );
-    void write( const Data&, const QString& ) const;
+    void write(const Data *, const QString& );
 
 signals:
-    void fileError( const QString& ) const;
-    void writeSuccess() const;
-    void readSuccess() const;
+    void fileError( const QString& );
+    void writeSuccess();
+    void readSuccess();
 };
 
 #endif // FILEMANAGER_H

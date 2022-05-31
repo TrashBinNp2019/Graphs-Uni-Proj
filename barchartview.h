@@ -11,7 +11,7 @@ class BarChartView: public CustomChartView
 
 public:
     BarChartView();
-    void updateData() override;
+    void update() override;
 
 private:
     QBarSeries *series;

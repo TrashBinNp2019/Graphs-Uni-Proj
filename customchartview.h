@@ -11,7 +11,7 @@ class CustomChartView : public QChartView
     Q_OBJECT
 
 public:
-    virtual void updateData() = 0;
+    virtual void update() = 0;
 
 
     Data *getData() const;

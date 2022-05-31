@@ -31,7 +31,7 @@ QJsonDocument Data::toJson() const
     for ( auto const &e : elements ) {
         QJsonObject obj;
         obj[ "name" ] = e.name;
-        obj[ "info" ] = e.info.toJsonObject();
+        obj[ "info" ] = e.info.toInt();
 
         arr.append( obj );
     }
@@ -58,7 +58,7 @@ bool Data::fromJson( const QJsonDocument &doc )
         auto aObj = a.toObject();
         DataElement el;
 
-        if ( !aObj.contains( "name" ) || aObj[ "name" ].isString() ) return false;
+        if ( !aObj.contains( "name" ) || !aObj[ "name" ].isString() ) return false;
         el.name = aObj[ "name" ].toString();
 
         if ( !aObj.contains( "info" ) ) return false;

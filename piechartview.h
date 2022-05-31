@@ -15,7 +15,7 @@ public:
 
 
 public:
-    void updateData() override;
+    void update() override;
 private:
     QPieSeries* series;
     void customizePie(QChart* chart);

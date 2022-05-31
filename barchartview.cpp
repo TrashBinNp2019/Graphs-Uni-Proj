@@ -7,7 +7,7 @@ BarChartView::BarChartView()
 
 }
 
-void BarChartView::updateData()
+void BarChartView::update()
 {
     series = new QBarSeries();
     QChart *chart = new QChart();

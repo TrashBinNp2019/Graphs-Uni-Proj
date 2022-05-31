@@ -17,15 +17,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(openAct, &QAction::triggered, this, &MainWindow::open);
     connect(clearAct, &QAction::triggered, this, &MainWindow::clear);
 
-    connect( fileManager, &FileManager::fileError, this, [ this ]( const QString& msg ){
-        this->ui->statusbar->showMessage( "File manager error: " + msg, 5000 );
-    } );
-    connect( fileManager, &FileManager::writeSuccess, this, [ this ](){
-        this->ui->statusbar->showMessage( "Wrote successfully", 5000 );
-    } );
-    connect( fileManager, &FileManager::readSuccess, this, [ this ](){
-        this->ui->statusbar->showMessage( "Read successfully", 5000 );
-    } );
+//    connect( fileManager, &FileManager::fileError, this, [ this ]( const QString& msg ){
+//        this->ui->statusbar->showMessage( "File manager error: " + msg, 5000 );
+//    } );
+//    connect( fileManager, &FileManager::writeSuccess, this, [ this ](){
+//        this->ui->statusbar->showMessage( "Wrote successfully", 5000 );
+//    } );
+//    connect( fileManager, &FileManager::readSuccess, this, [ this ](){
+//        this->ui->statusbar->showMessage( "Read successfully", 5000 );
+//    } );
 }
 
 MainWindow::~MainWindow()
@@ -37,9 +37,11 @@ MainWindow::~MainWindow()
 void MainWindow::newFile()
 {
 
+}
+
 void MainWindow::enableDisplay()
 {
-    customChartView->updateData();
+    customChartView->update();
     setCentralWidget(customChartView);
 }
 
@@ -50,18 +52,21 @@ void MainWindow::disableDisplay()
 
 void MainWindow::save() {
     ui->statusbar->showMessage("Saving...");
-    QString newPath = QFileDialog::getOpenFileName(this, tr("Save"), QDir::home().absolutePath(), tr("Json"));
+    QString newPath = QFileDialog::getSaveFileName(this, tr("Save..."), QDir::home().absolutePath(), tr("Json (*.json)"));
     if (!newPath.isEmpty()){
         fileManager->write(customChartView->getData(), newPath);
     }
 }
 
 void MainWindow::open() {
-   ui->statusbar->showMessage("Open...");
-   QString newPath = QFileDialog::getOpenFileName(this, tr("Save"), QDir::home().absolutePath(), tr("Json"));
+   ui->statusbar->showMessage("Opening...");
+   QString newPath = QFileDialog::getOpenFileName(this, tr("Open..."), QDir::home().absolutePath(), tr("Json (*.json)"));
    if(!newPath.isEmpty()){
-   customChartView->setData(fileManager->read(newPath));
-   enableDisplay();
+        auto data = fileManager->read(newPath);
+        if ( !data ) return;
+
+        customChartView->setData( data );
+        enableDisplay();
    }
 }
 
