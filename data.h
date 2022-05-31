@@ -7,6 +7,8 @@ class Data
 {
 public:
     Data();
+private:
+    int data;
 };
 
 #endif // DATA_H
