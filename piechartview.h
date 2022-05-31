@@ -15,7 +15,11 @@ public:
 
 public:
     void updateDate();
+private:
     QPieSeries* series;
+    void customizePie(QChart* chart);
+
+
 };
 
 #endif // PIECHARTVIEW_H
