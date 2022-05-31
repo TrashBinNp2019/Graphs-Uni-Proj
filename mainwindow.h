@@ -19,18 +19,22 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+private:
+    void enableDisplay();
+    void disableDisplay();
 private slots:
     void newFile();
     void open();
     void save();
+    void clear();
 
 private:
     Ui::MainWindow *ui;
     CustomChartView *customChartView = new BarChartView();
-    //QAction *addAct;
     QAction *newAct;
     QAction *openAct;
     QAction *saveAct;
+    QAction *clearAct;
     FileManager *fileManager;
 };
 #endif // MAINWINDOW_H
