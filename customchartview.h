@@ -7,10 +7,11 @@
 
 
 class CustomChartView : public QChartView
-
 {
+    Q_OBJECT
+
 public:
-    virtual void updateDate();
+    virtual void updateData() = 0;
 
 
     Data *getData() const;

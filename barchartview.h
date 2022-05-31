@@ -3,13 +3,15 @@
 
 #include "customchartview.h"
 
-#include <QBarSeries>
+#include <QtCharts/QBarSeries>
 
 class BarChartView: public CustomChartView
 {
+    Q_OBJECT
+
 public:
     BarChartView();
-    void updateData();
+    void updateData() override;
 
 private:
     QBarSeries *series;

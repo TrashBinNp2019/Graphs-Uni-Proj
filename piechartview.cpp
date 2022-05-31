@@ -1,7 +1,7 @@
 #include "piechartview.h"
 
 
-void PieChartView::updateDate()
+void PieChartView::updateData()
 {
     series = new QPieSeries();
     QChart* chart = new QChart();

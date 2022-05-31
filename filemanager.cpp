@@ -13,7 +13,7 @@ Data *FileManager::read( const QString &filename )
 {
     auto data = new Data();
 
-    QFile file;
+    QFile file( filename );
     if ( !file.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
         emit fileError( "Couldn't open input file");
         delete data;

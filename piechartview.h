@@ -2,19 +2,20 @@
 #define PIECHARTVIEW_H
 
 #include <QObject>
-#include <QPieSeries>
-#include <QChart>
+#include <QtCharts/QPieSeries>
+#include <QtCharts/QChart>
 #include "customchartview.h"
 
 class PieChartView: public CustomChartView
 {
     Q_OBJECT
-public:
-
-
 
 public:
-    void updateDate();
+
+
+
+public:
+    void updateData() override;
 private:
     QPieSeries* series;
     void customizePie(QChart* chart);
