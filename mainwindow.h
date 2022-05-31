@@ -48,7 +48,7 @@ private:
     QAction *openAct;
     QAction *saveAct;
     QAction *clearAct;
-    FileManager *fileManager;
+    FileManager fileManager;
 
     QLabel *statusLabel;
 };

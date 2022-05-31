@@ -10,6 +10,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , fileManager( this )
 {
     ui->setupUi(this);
 
@@ -33,15 +34,15 @@ MainWindow::MainWindow(QWidget *parent)
     statusLabel->setText( "Nothing to display" );
     this->ui->statusbar->addPermanentWidget( statusLabel );
 
-//    connect( fileManager, &FileManager::fileError, this, [ this ]( const QString& msg ){
-//        this->ui->statusbar->showMessage( "File manager error: " + msg, 5000 );
-//    } );
-//    connect( fileManager, &FileManager::writeSuccess, this, [ this ](){
-//        this->ui->statusbar->showMessage( "Wrote successfully", 5000 );
-//    } );
-//    connect( fileManager, &FileManager::readSuccess, this, [ this ](){
-//        this->ui->statusbar->showMessage( "Read successfully", 5000 );
-//    } );
+    connect( &fileManager, &FileManager::fileError, this, [ this ]( const QString& msg ){
+        this->ui->statusbar->showMessage( "File manager error: " + msg, 5000 );
+    } );
+    connect( &fileManager, &FileManager::writeSuccess, this, [ this ](){
+        this->ui->statusbar->showMessage( "Wrote successfully", 5000 );
+    } );
+    connect( &fileManager, &FileManager::readSuccess, this, [ this ](){
+        this->ui->statusbar->showMessage( "Read successfully", 5000 );
+    } );
 }
 
 MainWindow::~MainWindow()
@@ -82,7 +83,7 @@ void MainWindow::save() {
         ui->statusbar->showMessage("Saving...");
         QString newPath = QFileDialog::getSaveFileName(this, tr("Save..."), QDir::home().absolutePath(), tr("Json (*.json)"));
         if (!newPath.isEmpty()){
-            fileManager->write(customChartView->getData(), newPath);
+            fileManager.write(customChartView->getData(), newPath);
         }
     }
 }
@@ -126,7 +127,7 @@ void MainWindow::open() {
    ui->statusbar->showMessage("Opening...");
    QString newPath = QFileDialog::getOpenFileName(this, tr("Open..."), QDir::home().absolutePath(), tr("Json (*.json)"));
    if(!newPath.isEmpty()){
-        auto data = fileManager->read(newPath);
+        auto data = fileManager.read(newPath);
         if ( !data ) return;
 
         if ( customChartView ) {
