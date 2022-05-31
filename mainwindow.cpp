@@ -17,12 +17,25 @@ MainWindow::MainWindow(QWidget *parent)
     connect(openAct, &QAction::triggered, this, &MainWindow::open);
     connect(clearAct, &QAction::triggered, this, &MainWindow::clear);
 
+    connect( fileManager, &FileManager::fileError, this, [ this ]( const QString& msg ){
+        this->ui->statusbar->showMessage( "File manager error: " + msg, 5000 );
+    } );
+    connect( fileManager, &FileManager::writeSuccess, this, [ this ](){
+        this->ui->statusbar->showMessage( "Wrote successfully", 5000 );
+    } );
+    connect( fileManager, &FileManager::readSuccess, this, [ this ](){
+        this->ui->statusbar->showMessage( "Read successfully", 5000 );
+    } );
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
+void MainWindow::newFile()
+{
 
 void MainWindow::enableDisplay()
 {
