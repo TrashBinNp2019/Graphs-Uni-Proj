@@ -1,18 +1,16 @@
 #ifndef BARCHARTVIEW_H
 #define BARCHARTVIEW_H
 
-#include <QObject>
 #include "customchartview.h"
 
-class BarChartView : public CustomChartView
+class BarChartView: public CustomChartView
 {
-    Q_OBJECT
 public:
+    BarChartView();
+    void updateData();
 
-
-    // CustomChartView interface
-public:
-    void updateDate();
+private:
+    QBarSeries *series;
 };
 
 #endif // BARCHARTVIEW_H
