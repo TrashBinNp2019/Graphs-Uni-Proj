@@ -24,7 +24,6 @@ void PieChartView::customizePie(QChart* chart)
             label += "%";
             p->setLabel(label);
     }
-    chart->addSeries(series);
     chart->createDefaultAxes();
     chart->setTitle("Pie Chart");
     chart->legend()->setVisible(true);

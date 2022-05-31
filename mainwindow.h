@@ -22,6 +22,7 @@ public:
 private:
     void enableDisplay();
     void disableDisplay();
+    void newStandartCharts();
 private slots:
     void newFile();
     void open();
