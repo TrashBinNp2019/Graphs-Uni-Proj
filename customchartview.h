@@ -1,6 +1,7 @@
 #ifndef CUSTOMCHARTVIEW_H
 #define CUSTOMCHARTVIEW_H
 
+#include "data.h"
 #include <QtCharts/QChart>
 #include <QtCharts/QChartView>
 
@@ -9,8 +10,6 @@ class CustomChartView : public QChartView
 
 {
 public:
-
-
     virtual void updateDate();
 
 

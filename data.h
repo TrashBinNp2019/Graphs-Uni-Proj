@@ -4,7 +4,7 @@
 #include <QJsonDocument>
 #include <QObject>
 
-typedef QList< QVariant > InfoSet;
+typedef QVariant InfoSet;
 
 class Data : public QObject
 {

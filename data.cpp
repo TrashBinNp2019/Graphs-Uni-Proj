@@ -1,5 +1,8 @@
 #include "data.h"
 
+#include <QJsonArray>
+#include <QJsonObject>
+
 Data::Data( QObject *parent )
     : QObject( parent )
 {
@@ -24,10 +27,21 @@ QList< Data::DataElement >::iterator Data::end()
 
 QJsonDocument Data::toJson() const
 {
+    QJsonDocument doc;
 
+    QJsonArray arr;
+    for ( auto const &e : elements ) {
+        QJsonObject obj;
+        obj[ "name" ] = e.name;
+        obj[ "info" ] = e.info.toJsonObject();
+
+        arr.append( obj );
+    }
+
+    return doc;
 }
 
-void Data::fromJson(const QJsonDocument &)
+void Data::fromJson( const QJsonDocument &doc )
 {
 
 }
