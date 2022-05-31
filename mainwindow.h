@@ -5,7 +5,6 @@
 #include <QFileDialog>
 #include "customchartview.h"
 #include "barchartview.h"
-#include "piechartview.h"
 #include "filemanager.h"
 
 QT_BEGIN_NAMESPACE
@@ -29,9 +28,13 @@ private slots:
     void save();
     void clear();
 
+    void on_actionExit_triggered();
+
+    void on_actionAbout_triggered();
+
 private:
     Ui::MainWindow *ui;
-    CustomChartView *customChartView = new BarChartView();
+    CustomChartView *customChartView;
     QAction *newAct;
     QAction *openAct;
     QAction *saveAct;

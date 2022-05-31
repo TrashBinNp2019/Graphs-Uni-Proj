@@ -39,6 +39,9 @@ QJsonDocument Data::toJson() const
     QJsonObject obj;
     obj[ "elements" ] = arr;
     obj[ "title" ] = title;
+    obj[ "penColor" ] = penColor.name();
+    obj[ "brushColor" ] = brushColor.name();
+    obj[ "penWidth" ] = penWidth;
 
     QJsonDocument doc{ obj };
     return doc;
@@ -70,6 +73,15 @@ bool Data::fromJson( const QJsonDocument &doc )
     if ( !obj.contains( "title" ) || !obj[ "title" ].isString() ) return false;
     title = obj[ "title" ].toString();
 
+    if ( !obj.contains( "penColor" ) || !obj[ "penColor" ].isString() ) return false;
+    penColor = QColor( obj[ "penColor" ].toString() );
+
+    if ( !obj.contains( "brushColor" ) || !obj[ "brushColor" ].isString() ) return false;
+    brushColor = QColor( obj[ "brushColor" ].toString() );
+
+    if ( !obj.contains( "penWidth" ) || !obj[ "penWidth" ].isDouble() ) return false;
+    penWidth = obj[ "penWidth" ].toInt();
+
     return true;
 }
 
@@ -81,4 +93,34 @@ const QString &Data::getTitle() const
 void Data::setTitle( const QString &newTitle )
 {
     title = newTitle;
+}
+
+const QColor &Data::getPenColor() const
+{
+    return penColor;
+}
+
+void Data::setPenColor(const QColor &newPenColor)
+{
+    penColor = newPenColor;
+}
+
+const QColor &Data::getBrushColor() const
+{
+    return brushColor;
+}
+
+void Data::setBrushColor(const QColor &newBrushColor)
+{
+    brushColor = newBrushColor;
+}
+
+int Data::getPenWidth() const
+{
+    return penWidth;
+}
+
+void Data::setPenWidth(int newPenWidth)
+{
+    penWidth = newPenWidth;
 }

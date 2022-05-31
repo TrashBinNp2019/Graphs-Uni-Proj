@@ -1,6 +1,7 @@
 #ifndef DATA_H
 #define DATA_H
 
+#include <QColor>
 #include <QJsonDocument>
 #include <QObject>
 
@@ -28,15 +29,19 @@ public:
 
     const QString &getTitle() const;
     void setTitle(const QString &newTitle);
-
-// if needed
-//
-//signals:
-//    void elementsAppended();
+    const QColor &getPenColor() const;
+    void setPenColor(const QColor &newPenColor);
+    const QColor &getBrushColor() const;
+    void setBrushColor(const QColor &newBrushColor);
+    int getPenWidth() const;
+    void setPenWidth(int newPenWidth);
 
 private:
     QList< DataElement > elements;
     QString title;
+    QColor penColor;
+    QColor brushColor;
+    int penWidth;
 };
 
 #endif // DATA_H

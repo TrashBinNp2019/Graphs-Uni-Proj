@@ -3,6 +3,7 @@
 
 #include <QMessageBox>
 #include <QPushButton>
+#include <QRandomGenerator>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -20,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(openAct, &QAction::triggered, this, &MainWindow::open);
     connect(clearAct, &QAction::triggered, this, &MainWindow::clear);
     connect(newAct, &QAction::triggered, this, &MainWindow::newStandartCharts);
+
+    customChartView = nullptr;
 
 //    connect( fileManager, &FileManager::fileError, this, [ this ]( const QString& msg ){
 //        this->ui->statusbar->showMessage( "File manager error: " + msg, 5000 );
@@ -45,12 +48,17 @@ void MainWindow::newFile()
 
 void MainWindow::enableDisplay()
 {
+    if ( !customChartView ) return;
     customChartView->update();
     setCentralWidget(customChartView);
 }
 
 void MainWindow::disableDisplay()
 {
+    if ( customChartView ) {
+        delete customChartView;
+        customChartView = nullptr;
+    }
     setCentralWidget(nullptr);
 }
 
@@ -66,36 +74,40 @@ void MainWindow::save() {
 
 void MainWindow::newStandartCharts()
 {
-    QMessageBox box;
-    box.setText("Choose a standart charts");
-    auto pieButton = box.addButton(("Pie chart") , QMessageBox::NoRole);
-    box.addButton(("Bar chart") , QMessageBox::NoRole);
-    box.exec();
+    if ( customChartView ) {
+        delete customChartView;
+        customChartView = nullptr;
+    }
+
     Data* data = new Data();
-    Data::DataElement el{5 , "5"};
-    Data::DataElement el1{6 , "6"};
-    Data::DataElement el2{8 , "8"};
-    *data << el ;
+    Data::DataElement el0{ QRandomGenerator::global()->generate() % 100 / 10, "John" };
+    Data::DataElement el1{ QRandomGenerator::global()->generate() % 100 / 10, "Steve" };
+    Data::DataElement el2{ QRandomGenerator::global()->generate() % 100 / 10, "Karen" };
+    data->setTitle( "Default" );
+    data->setBrushColor( Qt::white );
+    data->setPenColor( Qt::black );
+    data->setPenWidth( 1 );
+    *data << el0 ;
     *data << el1 ;
     *data << el2 ;
-    if(box.clickedButton() == pieButton){
-       customChartView = new PieChartView();
-       customChartView->setData(data);
-    }
-    else{
-        customChartView = new BarChartView();
-    }
+    customChartView = new BarChartView();
     customChartView->setData(data);
     enableDisplay();
 }
 
-void MainWindow::open() {
+void MainWindow::open() {  
    ui->statusbar->showMessage("Opening...");
    QString newPath = QFileDialog::getOpenFileName(this, tr("Open..."), QDir::home().absolutePath(), tr("Json (*.json)"));
    if(!newPath.isEmpty()){
         auto data = fileManager->read(newPath);
         if ( !data ) return;
 
+        if ( customChartView ) {
+            delete customChartView;
+            customChartView = nullptr;
+        }
+
+        customChartView = new BarChartView();
         customChartView->setData( data );
         enableDisplay();
    }
@@ -104,3 +116,22 @@ void MainWindow::open() {
 void MainWindow::clear() {
     disableDisplay();
 }
+
+void MainWindow::on_actionExit_triggered()
+{
+    qApp->exit();
+}
+
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QMessageBox msgBox;
+    msgBox.setText("Nikita Puchinskij");
+    msgBox.setInformativeText("Group 10, Variant 3, 2022");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.setWindowTitle( "Charts" );
+
+    msgBox.exec();
+}
+
