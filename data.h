@@ -1,11 +1,12 @@
 #ifndef DATA_H
 #define DATA_H
 
+#include <QJsonDocument>
 #include <QObject>
 
 typedef QList< QVariant > InfoSet;
 
-class Data
+class Data : public QObject
 {
     Q_OBJECT
 
@@ -21,6 +22,9 @@ public:
     // read
     QList< Data::DataElement >::iterator begin();
     QList< Data::DataElement >::iterator end();
+
+    QJsonDocument toJson() const;
+    void fromJson( const QJsonDocument & );
 
 // if needed
 //
