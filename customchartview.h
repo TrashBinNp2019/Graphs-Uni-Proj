@@ -10,6 +10,16 @@ class CustomChartView : public QChartView
 {
 public:
 
+
+    virtual void updateDate();
+
+
+    Data *getData() const;
+    void setData(Data *newData);
+
+protected:
+    Data* data;
+
 };
 
 #endif // CUSTOMCHARTVIEW_H

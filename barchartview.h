@@ -9,6 +9,10 @@ class BarChartView : public CustomChartView
     Q_OBJECT
 public:
 
+
+    // CustomChartView interface
+public:
+    void updateDate();
 };
 
 #endif // BARCHARTVIEW_H
