@@ -15,6 +15,20 @@ Data *Data::operator<<( const DataElement &element )
     return this;
 }
 
+bool Data::operator ==( const Data &d ) const
+{
+    if ( elements.size() != d.elements.size() ) return false;
+    auto it1 = d.elements.begin();
+    for ( auto it = elements.begin(); it != elements.end() && it1 != d.elements.end(); it++, it1++  ) {
+        if ( *it != *it1 ) return false;
+    }
+
+    return  penColor.name() == d.penColor.name() &&
+            brushColor.name() == d.brushColor.name() &&
+            penWidth == d.penWidth &&
+            title == d.title;
+}
+
 QList< Data::DataElement >::iterator Data::begin()
 {
     return elements.begin();
@@ -39,6 +53,9 @@ QJsonDocument Data::toJson() const
     QJsonObject obj;
     obj[ "elements" ] = arr;
     obj[ "title" ] = title;
+    obj[ "penColor" ] = penColor.name();
+    obj[ "brushColor" ] = brushColor.name();
+    obj[ "penWidth" ] = penWidth;
 
     QJsonDocument doc{ obj };
     return doc;
@@ -70,7 +87,21 @@ bool Data::fromJson( const QJsonDocument &doc )
     if ( !obj.contains( "title" ) || !obj[ "title" ].isString() ) return false;
     title = obj[ "title" ].toString();
 
+    if ( !obj.contains( "penColor" ) || !obj[ "penColor" ].isString() ) return false;
+    penColor = QColor( obj[ "penColor" ].toString() );
+
+    if ( !obj.contains( "brushColor" ) || !obj[ "brushColor" ].isString() ) return false;
+    brushColor = QColor( obj[ "brushColor" ].toString() );
+
+    if ( !obj.contains( "penWidth" ) || !obj[ "penWidth" ].isDouble() ) return false;
+    penWidth = obj[ "penWidth" ].toInt();
+
     return true;
+}
+
+const qsizetype Data::getSize() const
+{
+    return elements.size();
 }
 
 const QString &Data::getTitle() const
@@ -81,4 +112,34 @@ const QString &Data::getTitle() const
 void Data::setTitle( const QString &newTitle )
 {
     title = newTitle;
+}
+
+const QColor &Data::getPenColor() const
+{
+    return penColor;
+}
+
+void Data::setPenColor(const QColor &newPenColor)
+{
+    penColor = newPenColor;
+}
+
+const QColor &Data::getBrushColor() const
+{
+    return brushColor;
+}
+
+void Data::setBrushColor(const QColor &newBrushColor)
+{
+    brushColor = newBrushColor;
+}
+
+int Data::getPenWidth() const
+{
+    return penWidth;
+}
+
+void Data::setPenWidth(int newPenWidth)
+{
+    penWidth = newPenWidth;
 }

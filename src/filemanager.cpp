@@ -29,6 +29,7 @@ Data *FileManager::read( const QString &filename )
         return nullptr;
     }
 
+    emit readSuccess();
     return data;
 }
 
@@ -41,4 +42,6 @@ void FileManager::write( const Data *data, const QString &filename ) {
 
     auto doc = data->toJson().toJson( QJsonDocument::Compact );
     file.write( doc );
+
+    emit writeSuccess();
 }
