@@ -1,4 +1,5 @@
-graphs.pro.user
-graphs.pro
+*.pro
+*.user
+*.autosave
 CMakeLists.txt
-CMakeLists.txt.user
+build-test*

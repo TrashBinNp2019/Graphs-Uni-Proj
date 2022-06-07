@@ -15,6 +15,20 @@ Data *Data::operator<<( const DataElement &element )
     return this;
 }
 
+bool Data::operator ==( const Data &d ) const
+{
+    if ( elements.size() != d.elements.size() ) return false;
+    auto it1 = d.elements.begin();
+    for ( auto it = elements.begin(); it != elements.end() && it1 != d.elements.end(); it++, it1++  ) {
+        if ( *it != *it1 ) return false;
+    }
+
+    return  penColor.name() == d.penColor.name() &&
+            brushColor.name() == d.brushColor.name() &&
+            penWidth == d.penWidth &&
+            title == d.title;
+}
+
 QList< Data::DataElement >::iterator Data::begin()
 {
     return elements.begin();
@@ -83,6 +97,11 @@ bool Data::fromJson( const QJsonDocument &doc )
     penWidth = obj[ "penWidth" ].toInt();
 
     return true;
+}
+
+const qsizetype Data::getSize() const
+{
+    return elements.size();
 }
 
 const QString &Data::getTitle() const

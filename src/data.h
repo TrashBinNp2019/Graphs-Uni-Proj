@@ -15,10 +15,18 @@ public:
     struct DataElement {
         InfoSet info;
         QString name;
+
+        bool operator ==( const DataElement &e ) const{
+            return info == e.info && name == e.name;
+        };
+        bool operator !=( const DataElement &e ) const{
+            return !this->operator==( e );
+        };
     };
     Data( QObject* = nullptr );
 
     Data *operator <<(const DataElement &element );
+    bool operator ==(const Data & ) const;
 
     // read
     QList< Data::DataElement >::iterator begin();
@@ -27,6 +35,7 @@ public:
     QJsonDocument toJson() const;
     bool fromJson( const QJsonDocument & );
 
+    const qsizetype getSize() const;
     const QString &getTitle() const;
     void setTitle(const QString &newTitle);
     const QColor &getPenColor() const;

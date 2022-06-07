@@ -1,0 +1,14 @@
+QT += testlib
+
+CONFIG += qt console warn_on depend_includepath testcase
+CONFIG -= app_bundle
+
+TEMPLATE = app
+
+HEADERS += \
+        ../src/data.h
+
+SOURCES += \
+        tst_main.cpp \
+        ../src/data.cpp
+
